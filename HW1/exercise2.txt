@@ -1,0 +1,33 @@
+In Java, there are 2 types of data types:
+
+    Primitive, the most basic data types available with the Java language
+    including int, long, short, double, float, boolean, char, byte.
+
+    Non-primitive, the data types which have instances like objects.
+    An example can be all classes and interfaces.
+
+
+And we can notice that 'int' is one of the 8 primitive data types, while Integer is actually a class.
+This difference gives us a lot of cases where we need Integer class instead of primitive type int:
+
+    Being a class, the Integer object gives us more functionality than a primitive type of int.
+    With Integer, we can actually convert string to integer, or convert integer to hex, and much more.
+
+    Another reason why we need Integer is that in Java, Generic works only with Objects and not with
+    primitive types. Therefore, we can't put something like 'Gen<int>', which will result as compiler 
+    time error. Instead, we must use Integer: 'Gen<Integer>'. 
+
+    Further more, because Integer is a class, we can use it in a pure object-oriented manner
+    whenever we need to. With Integer type, we can also use null to represent the absence of a value,
+    where in primitive type int, assigning null to int will cause an error.
+
+
+But because Integer has more functionality than int does not mean that we should always use it.
+There are actually many cases where int is more suitable than Integer.
+
+    Since Integer is a class, it actually takes up more space and performing arthimetic operations
+    with Integer will definitely be slower than doing the same thing with a primitive type int.
+    And since using Integer will decrease performance, we only use Integer whenever we have to.
+
+    Moreover, Integer is a class so we cannot compare two Integers with operators like ==, !=, etc.
+    We need to use method compareTo(), which is much more verbose than comparing primitive types.
