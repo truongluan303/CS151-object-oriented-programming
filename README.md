@@ -1,2 +1,2 @@
 # CS151
- Object-Oriented Class at SJSU
+Assignments for Object-Oriented Class (CS151) at SJSU
