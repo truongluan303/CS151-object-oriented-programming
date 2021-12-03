@@ -16,19 +16,20 @@ public class ReflectionTest {
         printFields(Address.class);
 
         try {
-            Address address1 = (Address)Class.forName("Address").getConstructors()[0].newInstance(
-                2222, "Street Str", "Los Angeles", "90001", "CA");
-            Address address2 = (Address)Class.forName("Address").getConstructors()[0].newInstance(
-                2222, "Boulevard Blv", "Austin", "73301", "TX");
-            Address address3 = (Address)Class.forName("Address").getConstructors()[0].newInstance(
-                3333, "Road Rd", "Austin", "73301", "TX");
 
-            Person person1 = (Person)Class.forName("Person").getConstructors()[0].newInstance(
-                "Johnny", "Depp", 58, "123-123-1234", address1);
-            Person person2 = (Person)Class.forName("Person").getConstructors()[0].newInstance(
-                "Amber", "Heard", 35, "321-321-4321", address2);
-            Person person3 = (Person)Class.forName("Person").getConstructors()[0].newInstance(
-                "Elon", "Musk", 50, "111-111-1111", address3);
+            Constructor<Address> addressConstructor = Address.class.getConstructor(
+                int.class, String.class, String.class, String.class, String.class);
+
+            Address address1 = (Address)addressConstructor.newInstance(2222, "Street Str", "Los Angeles", "90001", "CA");
+            Address address2 = (Address)addressConstructor.newInstance(2222, "Boulevard Blv", "Austin", "73301", "TX");
+            Address address3 = (Address)addressConstructor.newInstance(3333, "Road Rd", "Austin", "73301", "TX");
+
+            Constructor<Person> personConstructor = Person.class.getConstructor(
+                String.class, String.class, int.class, String.class, Address.class);
+
+            Person person1 = (Person)personConstructor.newInstance("Johnny", "Depp", 58, "123-123-1234", address1);
+            Person person2 = (Person)personConstructor.newInstance("Amber", "Heard", 35, "321-321-4321", address2);
+            Person person3 = (Person)personConstructor.newInstance("Elon", "Musk", 50, "111-111-1111", address3);
 
             System.out.println("\n\nPerson 1:" + person1.toString());
             System.out.println("Person 2:" + person2.toString());
@@ -38,6 +39,7 @@ public class ReflectionTest {
             e.printStackTrace();
         }
     }
+
 
 
 

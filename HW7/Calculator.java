@@ -11,15 +11,14 @@ import java.text.DecimalFormat;
  */
 public class Calculator extends JFrame {
 
-    private final ImageIcon icon = new ImageIcon("calc_icon.png");
-    private final Color OPERATOR_COLOR = new Color(94, 75, 182);
-    private final Color EQUAL_COLOR = new Color(254, 194, 8);
+    private final ImageIcon icon = new ImageIcon("icon.png");
+    private final Color OPERATOR_COLOR = new Color(194, 175, 250);
     private final Color GENERAL_COLOR = new Color(30, 35, 38);
     private final Color SAVE_COLOR = new Color(154, 125, 232);
     private final int GRID_COLS = 4;
     private final int GRID_ROWS = 5;
     private final int SIZE_X = 450;
-    private final int SIZE_Y = 600;
+    private final int SIZE_Y = 650;
     private final String SIGN = "+/-";
     private final String CLEAR = "C";
     private final String DEL = "del";
@@ -92,7 +91,6 @@ public class Calculator extends JFrame {
         // initialize the final variables
         numbers = new HashSet<>(Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."));
         formatter = new DecimalFormat("#.#####");
-        
     }
 
 
@@ -102,6 +100,18 @@ public class Calculator extends JFrame {
      * Initialize the UI components
      */
     private void initializeComponents() {
+
+        // initialize the images for operation buttons
+        Image eqimg = new ImageIcon("equal.png").getImage();
+        Image resizedEqImg = eqimg.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
+        Image divimg = new ImageIcon("divide.png").getImage();
+        Image resizedDivImg = divimg.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
+        Image mulimg = new ImageIcon("multiply.png").getImage();
+        Image resizedMulImg = mulimg.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
+        Image subimg = new ImageIcon("subtract.png").getImage();
+        Image resizedSubImg = subimg.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
+        Image plusimg = new ImageIcon("plus.png").getImage();
+        Image resizedPlusImg = plusimg.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH);
 
         // initialize the buttons
         num0 = createButton("0", GENERAL_COLOR, Color.WHITE);
@@ -116,15 +126,26 @@ public class Calculator extends JFrame {
         num9 = createButton("9", GENERAL_COLOR, Color.WHITE);
         pointButton = createButton(".", GENERAL_COLOR, Color.WHITE);
         delButton = createButton(DEL, GENERAL_COLOR, Color.WHITE);
-        mulButton = createButton(MUL, OPERATOR_COLOR, Color.WHITE);
-        divButton = createButton(DIV, OPERATOR_COLOR, Color.WHITE);
-        addButton = createButton(ADD, OPERATOR_COLOR, Color.WHITE);
-        subButton = createButton(SUB, OPERATOR_COLOR, Color.WHITE);
-        eqButton = createButton(EQUAL, EQUAL_COLOR, Color.WHITE);
         percentButton = createButton(PERCENTAGE, GENERAL_COLOR, Color.WHITE);
         signButton = createButton(SIGN, GENERAL_COLOR, Color.WHITE);
         cButton = createButton(CLEAR, GENERAL_COLOR, Color.WHITE);
 
+        eqButton = createButton("", OPERATOR_COLOR, null);
+        eqButton.setIcon(new ImageIcon(resizedEqImg));
+        eqButton.setName(EQUAL);
+        mulButton = createButton("", OPERATOR_COLOR, null);
+        mulButton.setIcon(new ImageIcon(resizedMulImg));
+        mulButton.setName(MUL);
+        divButton = createButton("", OPERATOR_COLOR, null);
+        divButton.setIcon(new ImageIcon(resizedDivImg));
+        divButton.setName(DIV);
+        subButton = createButton("", OPERATOR_COLOR, null);
+        subButton.setIcon(new ImageIcon(resizedSubImg));
+        subButton.setName(SUB);
+        addButton = createButton("", OPERATOR_COLOR, null);
+        addButton.setIcon(new ImageIcon(resizedPlusImg));
+        addButton.setName(ADD);
+        
         // initialize the text display panel
         display = new JTextField();
         display.setFont(new Font(Font.DIALOG, Font.BOLD, 70));
@@ -255,8 +276,21 @@ public class Calculator extends JFrame {
                 }
             }
 
+            // if the button clicked is an operation (+, -, x, /)
+            else if (button.getName().equals(ADD) || button.getName().equals(SUB) || 
+                     button.getName().equals(MUL) || button.getName().equals(DIV)) {
+                operation = button.getName();
+                updateDisplay = false;
+                resetOperationButtonsColor();
+                button.setBackground(SAVE_COLOR);
+                if (prevNum == null) {
+                    prevNum = currentNum;
+                    currentNum = "0";
+                }
+            }
+
             // if the button clicked is "="
-            else if (buttonText.equals(EQUAL)) {
+            else if (button.getName().equals(EQUAL)) {
                 if (prevNum != null) {
                     try {
                         double result = 0;
@@ -291,18 +325,6 @@ public class Calculator extends JFrame {
                     catch (Exception ex) {
                         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                }
-            }
-
-            // if the button clicked is an operation (+, -, x, /)
-            else {
-                operation = buttonText;
-                updateDisplay = false;
-                resetOperationButtonsColor();
-                button.setBackground(SAVE_COLOR);
-                if (prevNum == null) {
-                    prevNum = currentNum;
-                    currentNum = "0";
                 }
             }
 
